@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<style>
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit; 
+}
+
+html {
+	box-sizing: border-box;
+	font-size: 62.5%; 
+}
+
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #333;
+	font-weight: 300;
+	line-height: 1.6; 
+}
+
+h1 {
+	padding: 60px;
+	text-align: center;
+	font-size: 30px;
+	font-family: helvetica_heavy_extended;
+}
+
+h2 {
+	text-align: center;
+	font-size: 1.9vw;
+}
+
+h3 {
+	padding: 60px;
+	text-align: center;
+	font-size: 13px;
+	font-family: helvetica_heavy_extended;
+}
+
+.container {
+	width: 100%;
+}
+
+.gallery {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: 1;
+	grid-gap: 1.5rem;
+	padding-bottom: 40px;
+	vertical-align: middle;
+}
+
+.no_latina {
+	grid-template-rows: 2;
+}
+
+.gallery__img, .gallery__h2.manual {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.manual {
+	margin-left: 50%;
+}
+
+.gallery__img {
+	object-fit: cover;
+}
+
+figure.foto {
+	background-color: #2b2b2b;
+}
+
+.gallery__h2 {
+	top: 50%;
+	left: 50%;
+	position: relative;
+}
+
+.gallery__h2.left {
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+	transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
+}
+
+.gallery__h2.right {
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(90deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(90deg);
+	transform:  translateX(-50%) translateY(-50%) rotate(90deg);
+}
+
+@font-face {
+	font-family: "helvetica_heavy_extended";
+	src: url(fuentes\\helvetica_heavy_extended.ttf);
+}
+@font-face {
+	font-family: "adobe_jenson_pro";
+	src: url(fuentes\\adobe_jenson_pro.otf);
+}
+@font-face {
+	font-family: "garamond";
+	src: url(fuentes\\garamond.ttf);
+}
+@font-face {
+	font-family: "times_new_roman";
+	src: url(fuentes\\times_new_roman.ttf);
+}
+@font-face {
+	font-family: "baskerville";
+	src: url(fuentes\\baskerville.otf);
+}
+@font-face {
+	font-family: "bodoni";
+	src: url(fuentes\\bodoni.ttf);
+}
+@font-face {
+	font-family: "questa_slab";
+	src: url(fuentes\\questa_slab.otf);
+}
+@font-face {
+	font-family: "franklin_gothic";
+	src: url(fuentes\\franklin_gothic.ttf);
+}
+@font-face {
+	font-family: "avenir";
+	src: url(fuentes\\avenir.ttf);
+}
+@font-face {
+	font-family: "gill_sans";
+	src: url(fuentes\\gill_sans.ttf);
+}
+@font-face {
+	font-family: "optima";
+	src: url(fuentes\\optima.ttf);
+}
+@font-face {
+	font-family: "brush_script";
+	src: url(fuentes\\brush_script.ttf);
+}
+@font-face {
+	font-family: "gandur_alte";
+	src: url(fuentes\\gandur_alte.ttf);
+}
+
+
+
+</style>
+<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script>
+			window.onload = function attachListeners() {
+				var categories = ["cat_humanista","cat_garalda","cat_transicional","cat_didona","cat_mecana","cat_lineal grotesca","cat_lineal geométrica","cat_lineal humanista","cat_incisa","cat_escripta","cat_manual","cat_gótica","cat_ио lатiиа","cat2_ио lатiиа"];
+				var id = 1;
+
+				for (i = 1; i <= categories.length ; i++) {
+					var category_raw = categories[i - 1];
+
+					var category_tech = i < 14 ? category_raw.replace(" ", "_") : categories[i - 2].replace(" ", "_");
+					var category_clean = category_raw.replace("cat2_","").replace("cat_", "");
+
+					if (i < 14) {
+						$(".container").append(`<div id='${category_tech}' class='gallery ${i == 13 ? 'no_latina' : ''}'></div>`); 
+					}
+					for (k = 1; k <= 6; k++) {
+						var elem;
+						if ((k == 1 || k == 6) && i == 14) {
+
+						} else if ((k == 1 || k == 6) && i < 14) {
+							if (i == 11) {
+								elem = $(`#${category_tech}`)
+									.append(`<figure><img id='img_${id}' src="fuentes\\edge sans.svg" class='gallery__h2 manual ${k == 1 ? 'left' : 'right'}'/></figure>`);
+							} else {
+								elem = $(`#${category_tech}`)
+									.append(`<figure><h2 id='img_${id}' class='gallery__h2 ${k == 1 ? 'left' : 'right'}'>${category_clean}</h2></figure>`);
+								if (k == 1)	{
+									elem = elem.children().first();
+								} else {
+									elem = elem.children().last();
+								}
+								setFontFamily(elem.children().first(), i);
+							}
+							if (i == 13) {
+								elem.css({
+									"grid-row-start": (1).toString(),
+									"grid-row-end": (3).toString()
+								});
+							}
+							elem.css({
+								"grid-column-start": ((k * 2) - 1).toString(),
+								"grid-column-end": ((k * 2) + 1).toString()
+							});
+						} else {
+							var j = k - 1;
+							$(`#${category_tech}`).append(`<figure class="foto"><img id='img_${id}' class='gallery__img'/></figure>`); 
+
+							// set image src
+							elem = $("#img_".concat(id));
+							var path = `fotos\\${i}. ${category_clean}\\${category_clean} ${j}.jpg`;
+							elem.attr("src", path);
+							elem.mouseover({path_src : `fotos\\${i}. ${category_clean}\\${category_clean} ${j} detalle.jpg`}, function(event) {
+								$(this).fadeTo(150, 0, function() {
+									//$(this).css({'background-color': '#000'});
+									$(this).attr("src", event.data.path_src);	
+								}).fadeTo(150, 1);
+							});
+							elem.mouseout({path_src : path}, function(event) {
+								$(this).fadeTo(150,0, function() {
+									$(this).attr("src", event.data.path_src);
+								}).fadeTo(100, 1);
+							});
+							elem.parent().css({
+								"grid-column-start": ((k * 2) - 1).toString(),
+								"grid-column-end": ((k * 2) + 1).toString()
+							})
+						}
+						id++;
+					}
+				}
+				$('div#cat_ио_lатiиа').css({
+					'padding-bottom': '1.5rem'
+				})
+			}
+			function setFontFamily(h2_elem, idx) {
+				var name;
+				var size;
+				switch (idx) {
+					case 1:
+						name = 'adobe_jenson_pro';
+						size = '2.55vw';
+					break;
+					case 2:
+						name = 'garamond';
+						size = '2.65vw';
+					break;
+					case 3:
+						name = 'baskerville';
+						size = '2.2vw';
+					break;
+					case 4:
+						name = 'bodoni';
+						size = '2.4vw';
+					break;
+					case 5:
+						name = 'questa_slab';
+						size = '2.5vw';
+					break;
+					case 6:
+						name = 'franklin_gothic';
+						size = '2.2vw';
+					break;
+					case 7:
+						name = 'avenir';
+						size = '1.8vw';
+					break;
+					case 8:
+						name = 'gill_sans';
+						size = '2.0vw';
+					break;
+					case 9:
+						name = 'optima';
+						size = '2.3vw';
+					break;
+					case 10:
+						name = 'brush_script';
+						size = '2.7vw';
+					break;
+					case 11:
+						name = 'digestive';
+						size = '2.2vw';
+					break;
+					case 12:
+						name = 'gandur_alte';
+						size = '2.3vw';
+					break;
+				}
+				h2_elem.css({
+					"font-family" : name,
+					"font-size" : size
+				});
+			}
+		</script>
+		<title>TYPE CLASS</title>
+	</head>
+	<body>
+		<div class="container">
+			<h1>CLASIFICACIÓN TIPOGRÁFICA</h1>
+		</div>
+		<footer>
+			<h3>MARIA POTAPOVA</h3>
+		</footer>
+	</body>
+</html>
+S
